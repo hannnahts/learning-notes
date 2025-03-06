@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="style.css" />
+  <!-- 元信息区 -->
+  <head>
+    <!-- 字符编码 -->
+    <meta charset="UTF-8" />
+    <!-- 移动端适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网站示例</title>
+    <!-- 内嵌css样式 -->
+    <style>
+      /* 图片容器样式 */
+      .image-container {
+        position: relative;
+        max-width: 600px;
+        margin: 20px auto;
+      }
+      /* 点击图片反应 */
+      .clickable-image {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+      .fade-out {
+        opacity: 0;
+      }
+      /* 计数器样式 */
+      .image-counter {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+
+      /* 基础样式 */
+      p {
+        font-size: 1.2rem;
+        margin: 1em 0;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* 光晕效果 */
+        animation: floatAndFlicker 3s ease-in-out infinite; /* 文字动画｜时长｜速度曲线｜无限循环 */
+      }
+
+      /* 每个段落延迟不同 */
+      p:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      p:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      p:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      p:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      p:nth-child(5) {
+        animation-delay: 1s;
+      }
+      p:nth-child(6) {
+        animation-delay: 1.2s;
+      }
+      p:nth-child(7) {
+        animation-delay: 1.4s;
+      }
+      p:nth-child(8) {
+        animation-delay: 1.6s;
+      }
+
+      /* 更多段落以此类推 */
+
+      /* 文字复合动画 */
+      @keyframes floatAndFlicker {
+        0%,
+        100% {
+          /* 起始和结束位置 */
+          transform: translateY(0);
+          opacity: 1;
+          text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+        }
+        /* 中间上移10像素 */
+        50% {
+          transform: translateY(-10px);
+          opacity: 0.7;
+          text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+        }
+      }
+    </style>
+  </head>
+  <!-- 可见内容区 -->
+  <body>
+    <h1>大路之歌</h1>
+    <!-- 图片容器 -->
+    <div class="image-container">
+      <img
+        id="switchImage"
+        src="image/xyzlight.jpg"
+        alt="切换图片"
+        class="clickable-image"
+      />
+    </div>
+
+    <p>我轻松愉快走上大路， 我健康自由，</p>
+    <p>世界在我面前， 长长褐色的大路在我面前，</p>
+    <p>指向我想去的任何地方。</p>
+    <p>从此， 我不再希求好运气， 我自己就是好运气；</p>
+    <p>从此， 我不再抱怨，不再迟疑， 我强壮满足，迈步走上大路。</p>
+    <p>我走上你这大路， 环顾四周， 我相信，这不是你的全部；</p>
+    <p>我相信，许多未曾看到的也存在于此。</p>
+
+    <!-- javascript代码 -->
+    <!-- 用户点击图片 → 触发点击事件 → 计算新索引 → 添加淡出类 → 
+    等待300ms → 切换图片源 → 移除淡出类 → 更新计数器 -->
+    <script>
+      // 图片路径数据
+      const images = ["image/xyzdark.jpg", "image/xyzlight.jpg"];
+      const imgElement = document.getElementById("switchImage");
+      const counterElement = document.querySelector(".image-counter");
+      // 显示图片的索引
+      let currentIndex = 0;
+
+      // 预加载图片，防止切换时闪烁
+      images.forEach((src) => (new Image().src = src));
+      // 当前索引：0 → (0+1)%2=1
+      // 当前索引：1 → (1+1)%2=0
+      imgElement.addEventListener("click", function () {
+        //事件监听
+        currentIndex = (currentIndex + 1) % images.length; //循环递增
+        this.classList.add("fade-out");
+        //淡出效果，完成后切换图片
+        setTimeout(() => {
+          this.src = images[currentIndex];
+          this.classList.remove("fade-out");
+          counterElement.textContent = `${currentIndex + 1}/${images.length}`;
+        }, 300);
+      });
+
+      // 键盘控制
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+      });
+
+      function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateImage();
+      }
+
+      function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateImage();
+      }
+      //动态更新图片，DOM操作
+      function updateImage() {
+        imgElement.src = images[currentIndex]; //修改图片地址
+        counterElement.textContent = `${currentIndex + 1}/${images.length}`; //更新计数器
+      }
+    </script>
+  </body>
+</html>
+
+<!-- HTML 文档
+├── head（不可见信息）
+│   ├── 字符编码
+│   ├── 视口设置
+│   └── 样式表
+└── body（可见内容）
+    ├── 标题
+    ├── 图片容器
+    │   ├── 可切换图片
+    │   └── 计数器
+    ├── 段落文字
+    └── 交互脚本 -->

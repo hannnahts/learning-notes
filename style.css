@@ -1,0 +1,45 @@
+body {
+  color: #e0e0e0; /* 默认字体颜色 */
+  background-color: #1a1a1a; /* 深色背景 */
+  font-family: 'Microsoft YaHei', sans-serif; /* 中文字体优化 */
+  line-height: 1.6; /* 行高 */
+}
+
+h1 {
+  color: #ffffffde; /* 带轻微透明的白色 */
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* 文字阴影 */
+  text-align: center;
+}
+
+p {
+  color: #d8d6d6;
+  font-size: 1.1rem;
+  margin: 0.8em 0;
+  text-align: center;
+} 
+.container{
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.clickable-image {
+  cursor: pointer;
+  transition: opacity 2s ease; /* 淡入淡出效果 */
+}
+
+/* 切换时的过渡效果 */
+.fade-out {
+  opacity: 1;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  /* gap: 10px; */
+}
+
+* {
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+}
